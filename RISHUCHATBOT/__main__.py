@@ -9,7 +9,7 @@ from pyrogram.types import BotCommand
 from config import OWNER_ID
 from RISHUCHATBOT import RISHUCHATBOT, LOGGER
 from RISHUCHATBOT.modules import ALL_MODULES
-from RISHUCHATBOT.modules.Clone import restart_bots
+from RISHUCHATBOT.modules.Clone import restart_bots  # ID-chatbot wala remove
 
 async def anony_boot():
     try:
@@ -18,29 +18,20 @@ async def anony_boot():
             await RISHUCHATBOT.send_message(int(OWNER_ID), f"**{RISHUCHATBOT.mention} Is started✅**")
         except Exception as ex:
             LOGGER.info(f"@{RISHUCHATBOT.username} Started, please start the bot from owner id.")
-    
+
+        # Restart main bot modules
         asyncio.create_task(restart_bots())
-        asyncio.create_task(restart_idchatbots())
-        await load_clone_owners()
-        if config.STRING1:
-            try:
-                await userbot.start()
-                try:
-                    await RISHUCHATBOT.send_message(int(OWNER_ID), f"**Id-Chatbot Also Started✅**")
-                except Exception as ex:
-                    LOGGER.info(f"@{RISHUCHATBOT.username} Started, please start the bot from owner id.")
-    
-            except Exception as ex:
-                print(f"Error in starting id-chatbot :- {ex}")
-                pass
+        # ID-Chatbot related lines removed
+
     except Exception as ex:
         LOGGER.error(ex)
 
+    # Import all modules
     for all_module in ALL_MODULES:
         importlib.import_module("RISHUCHATBOT.modules." + all_module)
         LOGGER.info(f"Successfully imported : {all_module}")
 
-    
+    # Set bot commands
     try:
         await RISHUCHATBOT.set_bot_commands(
             commands=[
@@ -55,18 +46,17 @@ async def anony_boot():
                 BotCommand("gcast", "Broadcast any message to groups/users"),
                 BotCommand("shayri", "Get random shayri for love"),
                 BotCommand("ask", "Ask anything from chatgpt"),
-                
             ]
         )
         LOGGER.info("Bot commands set successfully.")
     except Exception as ex:
         LOGGER.error(f"Failed to set bot commands: {ex}")
-    
+
     LOGGER.info(f"@{RISHUCHATBOT.username} Started.")
-    
     await idle()
 
 
+# ----------------- Flask -----------------
 app = Flask(__name__)
 @app.route('/')
 def home():
@@ -75,6 +65,8 @@ def home():
 def run_flask():
     app.run(host="0.0.0.0", port=8000)
 
+
+# ----------------- Main -----------------
 if __name__ == "__main__":
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.start()
