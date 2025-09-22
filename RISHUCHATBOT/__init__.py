@@ -117,5 +117,5 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 RISHUCHATBOT = RISHUCHATBOT()
-userbot = Userbot()
+
 
