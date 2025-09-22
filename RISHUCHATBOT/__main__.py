@@ -7,6 +7,7 @@ import config
 from pyrogram import idle
 from pyrogram.types import BotCommand
 from config import OWNER_ID
+from RISHUCHATBOT import RISHUCHATBOT, LOGGER
 from RISHUCHATBOT.modules import ALL_MODULES
 from RISHUCHATBOT.modules.Clone import restart_bots
 
