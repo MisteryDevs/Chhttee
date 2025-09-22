@@ -2,7 +2,7 @@ import logging
 import time
 from pymongo import MongoClient
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
-from pyrogram import Client
+from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 import uvloop
 import config
@@ -101,6 +101,10 @@ class RISHUCHATBOT(Client):
 
     async def stop(self):
         await super().stop()
+
+    # ✅ Custom command decorator (so @RISHUCHATBOT.on_cmd works)
+    def on_cmd(self, commands, **kwargs):
+        return self.on_message(filters.command(commands, **kwargs))
 
 
 # Time formatting helper
