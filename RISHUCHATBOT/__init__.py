@@ -1,39 +1,46 @@
 import logging
 import time
 from pymongo import MongoClient
-from Abg import patch
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pyrogram import Client
 from pyrogram.enums import ParseMode
-import config
 import uvloop
-import time
+import config
+
+# Global vars
 ID_CHATBOT = None
 CLONE_OWNERS = {}
 uvloop.install()
 
+# Logger setup
 logging.basicConfig(
     format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
 )
-
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 LOGGER = logging.getLogger(__name__)
+
+# Boot time
 boot = time.time()
+
+# MongoDB connections
 mongodb = MongoCli(config.MONGO_URL)
 db = mongodb.Anonymous
 mongo = MongoClient(config.MONGO_URL)
 OWNER = config.OWNER_ID
 _boot_ = time.time()
+
 clonedb = None
+
 def dbb():
     global db
     global clonedb
     clonedb = {}
     db = {}
 
+# Clone owner database
 cloneownerdb = db.clone_owners
 
 async def load_clone_owners():
@@ -48,6 +55,7 @@ async def save_clonebot_owner(bot_id, user_id):
         {"$set": {"user_id": user_id}},
         upsert=True
     )
+
 async def get_clone_owner(bot_id):
     data = await cloneownerdb.find_one({"bot_id": bot_id})
     if data:
@@ -71,7 +79,8 @@ async def get_idclone_owner(clone_id):
         return data["user_id"]
     return None
 
-    
+
+# Main Bot Class
 class RISHUCHATBOT(Client):
     def __init__(self):
         super().__init__(
@@ -89,10 +98,12 @@ class RISHUCHATBOT(Client):
         self.name = self.me.first_name + " " + (self.me.last_name or "")
         self.username = self.me.username
         self.mention = self.me.mention
-        
+
     async def stop(self):
         await super().stop()
 
+
+# Time formatting helper
 def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
@@ -116,6 +127,6 @@ def get_readable_time(seconds: int) -> str:
     ping_time += ":".join(time_list)
     return ping_time
 
+
+# Bot instance (importable in __main__.py)
 RISHUCHATBOT = RISHUCHATBOT()
-
-
