@@ -4,7 +4,6 @@ import importlib
 from flask import Flask
 import threading
 import config
-from RISHUCHATBOT import ID_CHATBOT
 from pyrogram import idle
 from pyrogram.types import BotCommand
 from config import OWNER_ID
