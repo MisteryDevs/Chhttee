@@ -8,10 +8,8 @@ from RISHUCHATBOT import ID_CHATBOT
 from pyrogram import idle
 from pyrogram.types import BotCommand
 from config import OWNER_ID
-from RISHUCHATBOT import LOGGER, RISHUCHATBOT, userbot, load_clone_owners
 from RISHUCHATBOT.modules import ALL_MODULES
 from RISHUCHATBOT.modules.Clone import restart_bots
-from RISHUCHATBOT.modules.Id_Clone import restart_idchatbots
 
 async def anony_boot():
     try:
@@ -48,8 +46,7 @@ async def anony_boot():
             commands=[
                 BotCommand("start", "Start the bot"),
                 BotCommand("help", "Get the help menu"),
-                BotCommand("clone", "Make your own chatbot"),
-                BotCommand("idclone", "Make your id-chatbot"),
+                BotCommand("clone", "Make your own ReactionBot"),
                 BotCommand("cloned", "Get List of all cloned bot"),
                 BotCommand("ping", "Check if the bot is alive or dead"),
                 BotCommand("gen", "Generate high quality Image"),
